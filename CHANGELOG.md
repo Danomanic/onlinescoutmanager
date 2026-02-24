@@ -1,20 +1,22 @@
 # Changelog
----------
 
-### 0.0.4 (Unreleased)
-- Add getPatrols() function
+## 1.0.0
 
-### 0.0.3 (Oct 28, 2019)
-- Refactored code and readme
-- Added event and programme functions 
+Complete rewrite of `osm-node` as `osm-api`.
 
-### 0.0.2 (Sept 05, 2019)
-- Refactored code
-- Added function comments
-- Added functions getTerms, getMembers, getMemberDetails
+### Breaking Changes
 
-### 0.0.1 (July 22, 2019)
-- First API call to OSM (Auth)
-- Refactor code to fix ESLint Errors
-- Create documention for project
-- Create CHANGELOG for project
+- Package renamed from `osm-node` to `osm-api`
+- Entirely new API — class-based `OSMClient` replaces global state pattern
+- TypeScript-first with full type definitions
+- Requires Node.js 18+ (native `fetch`)
+- Zero runtime dependencies (removed `axios`)
+
+### Added
+
+- `OSMClient` class with instance-based auth and config
+- Resource namespaces: `members`, `attendance`, `programme`, `sections`, `badges`, `dashboard`, `customData`, `email`
+- Custom error classes: `OSMError`, `OSMAuthError`
+- ESM + CJS dual output
+- Full test suite with vitest (33 tests)
+- TypeScript strict mode

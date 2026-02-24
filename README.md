@@ -1,116 +1,181 @@
-OSM Node
-=======================
-Make API calls to OSM (Online Scout Manager) in Node.
+# osm-api
 
-Prerequisites
--------------
+Modern TypeScript client for the [Online Scout Manager](https://www.onlinescoutmanager.co.uk) (OSM) API.
 
-- [OSM Account](http://onlinescoutmanager.co.uk)
-- [Node.js 8.0+](http://nodejs.org)
+- **TypeScript-first** — full type definitions for all API responses
+- **Zero dependencies** — uses native `fetch` (Node 18+)
+- **Instance-based** — no global state, supports multiple clients
+- **ESM + CJS** — works everywhere
 
-
-Install
----------------
-
-The easiest way to get started is to clone the repository:
+## Install
 
 ```bash
-$ npm install osm-node
+npm install osm-api
 ```
 
-Configuration
----------------
+## Quick Start
 
-Set the API ID and Token
-```js
-osm.core.apiid = '<API-ID>';
-osm.core.token = '<API-TOKEN>';
+```ts
+import { OSMClient } from "osm-api";
 
-osm.core.email = '<EMAIL>';
-osm.core.password = '<PASSWORD>';
+const osm = new OSMClient({
+  apiId: "your-api-id", // Obtain from OSM Support
+  token: "your-api-token",
+});
+
+// Authorize with your OSM credentials
+await osm.authorize("you@example.com", "your-password");
+
+// Now use any resource
+const members = await osm.members.list("sectionId", "termId");
 ```
 
-Usage
----------------
-```js
-const osm = require('osm-node');
+## API Reference
 
-osm.core.apiid = '123';
-osm.core.token = '9b7782b7-0f28-4fd8-adb5-6da212e3217b';
+### `new OSMClient(options)`
 
-osm.core.email = 'joe@blogs.com';
-osm.core.password = 'securepassword';
+| Option    | Type     | Required | Description                          |
+| --------- | -------- | -------- | ------------------------------------ |
+| `apiId`   | `string` | ✅       | Your OSM API ID                      |
+| `token`   | `string` | ✅       | Your OSM API token                   |
+| `baseUrl` | `string` | —        | Override the API base URL (advanced)  |
+
+### `osm.authorize(email, password)`
+
+Authenticates with OSM. **Must be called before any other API method.**
+
+```ts
+await osm.authorize("leader@scouts.org.uk", "password");
+console.log(osm.isAuthorized); // true
 ```
 
-### Core
-```js
-// MUST be called before calling other methods.
-osm.core.authorise();
-```
 ### Members
-```js
-// Get Members
-osm.members.getMembers();
 
-// Get Member Details (sectionid, memberid)
-osm.members.getMemberDetails(1234, 1234);
+```ts
+// List all members in a section/term
+const members = await osm.members.list(sectionId, termId);
 
-// Get Attendance (sectionid, termid)
-osm.members.getAttendance(1234, 1234);
+// Get individual member details
+const member = await osm.members.get(sectionId, scoutId);
 
-// Get Patrols (sectionid, termid)
-osm.members.getPatrols(1234, 1234);
+// Get member transfers
+const transfers = await osm.members.getTransfers(sectionId);
+
+// Get patrols with members
+const patrols = await osm.members.getPatrols(sectionId, termId);
+
+// Get census details
+const census = await osm.members.getCensus(sectionId, termId);
+
+// Get flexi-records (pass true for archived)
+const records = await osm.members.getFlexiRecords(sectionId);
+
+// Get deletable members
+const deletable = await osm.members.getDeletable(sectionId);
 ```
 
-### Terms
-```js
-// Get Terms
-osm.terms.getTerms();
+### Attendance
+
+```ts
+// Get attendance records
+const attendance = await osm.attendance.get(sectionId, termId, "cubs");
+
+// Get badge requirements for a meeting date
+const badges = await osm.attendance.getBadgeRequirements(sectionId, "cubs", "2026-01-14");
+
+// Update attendance
+await osm.attendance.update({
+  sectionId: "100",
+  termId: "200",
+  scoutIds: [3008213],
+  selectedDate: "2026-01-14",
+  present: "Yes",
+  section: "cubs",
+});
 ```
 
 ### Programme
-```js
-// Get Programme Summary (secitonid, termid)
-osm.programme.getProgrammeSummary(1234, 1234);
+
+```ts
+// Get programme summary for a term
+const summary = await osm.programme.getSummary(sectionId, termId);
+
+// Get detailed programme for a meeting
+const details = await osm.programme.getDetails(sectionId, eveningId);
+
+// Get parent rota members
+const rota = await osm.programme.getParentRotaMembers(sectionId, eveningId);
+
+// Get programme attachments
+const attachments = await osm.programme.getAttachments(sectionId, eveningId);
+
+// Update a meeting
+await osm.programme.updateMeeting(sectionId, eveningId, { title: "New Title" });
 ```
 
-### Events
-```js
-// Get Event Summary (sectionid, termid)
-osm.events.getEventsSummary(1234, 1234);
+### Sections & Terms
 
-// Get Event Structure (sectionid, eventid)
-osm.events.getEventStructure(1234, 1234);
-
-// Get Event Attendance (sectionid, eventid, termid)
-osm.events.getEventAttendance(1234, 1234, 1234);
-
-// Get Event Attachments (sectionid, eventid)
-osm.events.getEventAttachments(1234, 1234);
+```ts
+const sections = await osm.sections.list();
+const terms = await osm.sections.getTerms();
 ```
 
-Changelog
----------
+### Badges
 
-You can find the changelog for the project in: [CHANGELOG.md](https://github.com/Danomanic/osm-node/blob/master/CHANGELOG.md)
+```ts
+const cloud = await osm.badges.getTagCloud(sectionId, termId, "cubs");
+```
 
+### Dashboard
 
-Contributing
-------------
+```ts
+const dashboard = await osm.dashboard.getNextThings(sectionId, termId, "cubs");
+```
 
-If something is unclear, confusing, or needs to be refactored, please let me know.
-Pull requests are always welcome. Please open an issue before
-submitting a pull request. This project uses [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript) with a few minor exceptions.
+### Custom Data
 
-License
--------
+```ts
+// Get custom data for a member
+const data = await osm.customData.get(sectionId, memberId);
 
-The MIT License (MIT)
+// Update custom data
+await osm.customData.update(sectionId, memberId, groupId, {
+  firstname: "Updated",
+});
+```
 
-Copyright (c) 2014-2019 Sahat Yalkabov
+### Email
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+```ts
+// Get email contacts
+const contacts = await osm.email.getContacts(sectionId);
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+// Send an email template
+await osm.email.sendTemplate(sectionId, "Subject", emailsObj, editsObj);
+```
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+## Error Handling
+
+```ts
+import { OSMError, OSMAuthError } from "osm-api";
+
+try {
+  await osm.members.list("1", "2");
+} catch (err) {
+  if (err instanceof OSMAuthError) {
+    // Not authorized — call osm.authorize() first
+  }
+  if (err instanceof OSMError) {
+    console.error(err.status); // HTTP status code
+    console.error(err.body); // Raw response body
+  }
+}
+```
+
+## Requirements
+
+- Node.js 18+
+
+## License
+
+ISC © Daniel J. Pomfret

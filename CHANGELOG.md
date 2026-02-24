@@ -6,7 +6,7 @@ Complete rewrite of `osm-node` as `osm-api`.
 
 ### Breaking Changes
 
-- Package renamed from `osm-node` to `osm-api`
+- Package renamed from `osm-node` to `onlinescoutmanager`
 - Entirely new API — class-based `OSMClient` replaces global state pattern
 - TypeScript-first with full type definitions
 - Requires Node.js 18+ (native `fetch`)

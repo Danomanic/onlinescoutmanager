@@ -10,13 +10,13 @@ Modern TypeScript client for the [Online Scout Manager](https://www.onlinescoutm
 ## Install
 
 ```bash
-npm install osm-api
+npm install onlinescoutmanager
 ```
 
 ## Quick Start
 
 ```ts
-import { OSMClient } from "osm-api";
+import { OSMClient } from "onlinescoutmanager";
 
 const osm = new OSMClient({
   apiId: "your-api-id", // Obtain from OSM Support
@@ -157,7 +157,7 @@ await osm.email.sendTemplate(sectionId, "Subject", emailsObj, editsObj);
 ## Error Handling
 
 ```ts
-import { OSMError, OSMAuthError } from "osm-api";
+import { OSMError, OSMAuthError } from "onlinescoutmanager";
 
 try {
   await osm.members.list("1", "2");

@@ -37,7 +37,10 @@ export class MembersResource {
     );
   }
 
-  async getPatrols(sectionId: string, termId: string): Promise<PatrolsResponse> {
+  async getPatrols(
+    sectionId: string,
+    termId: string,
+  ): Promise<PatrolsResponse> {
     return this.client.post<PatrolsResponse>(
       "/ext/members/patrols/?action=getPatrolsWithPeople",
       { sectionid: sectionId, termid: termId },
@@ -51,7 +54,10 @@ export class MembersResource {
     );
   }
 
-  async getFlexiRecords(sectionId: string, archived = false): Promise<FlexiRecordsResponse> {
+  async getFlexiRecords(
+    sectionId: string,
+    archived = false,
+  ): Promise<FlexiRecordsResponse> {
     return this.client.post<FlexiRecordsResponse>(
       "/ext/members/flexirecords/?action=getPatrolsWithPeople",
       { sectionid: sectionId, archived: archived ? "y" : "n" },

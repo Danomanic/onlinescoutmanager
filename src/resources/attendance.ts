@@ -9,7 +9,11 @@ import type {
 export class AttendanceResource {
   constructor(private client: OSMClient) {}
 
-  async get(sectionId: string, termId: string, section: string): Promise<AttendanceResponse> {
+  async get(
+    sectionId: string,
+    termId: string,
+    section: string,
+  ): Promise<AttendanceResponse> {
     return this.client.post<AttendanceResponse>(
       "/ext/members/attendance/?action=get",
       { sectionid: sectionId, termid: termId, section },

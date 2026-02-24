@@ -30,10 +30,18 @@ describe("attendance.get", () => {
 
 describe("attendance.getBadgeRequirements", () => {
   it("fetches badge requirements for a date", async () => {
-    const data = [{ badge_id: "1593", badgeName: "Communicator", name: "Code" }];
-    const fetchMock = mockFetch(new Map([["getAttendanceBadgeRequirements", { body: data }]]));
+    const data = [
+      { badge_id: "1593", badgeName: "Communicator", name: "Code" },
+    ];
+    const fetchMock = mockFetch(
+      new Map([["getAttendanceBadgeRequirements", { body: data }]]),
+    );
 
-    const result = await authedClient().attendance.getBadgeRequirements("100", "cubs", "2026-01-14");
+    const result = await authedClient().attendance.getBadgeRequirements(
+      "100",
+      "cubs",
+      "2026-01-14",
+    );
 
     expect(result[0].badgeName).toBe("Communicator");
     expect(fetchMock.mock.calls[0][1].body).toContain("date=2026-01-14");
@@ -42,7 +50,9 @@ describe("attendance.getBadgeRequirements", () => {
 
 describe("attendance.update", () => {
   it("updates attendance for scouts", async () => {
-    const fetchMock = mockFetch(new Map([["action=update", { body: { ok: true } }]]));
+    const fetchMock = mockFetch(
+      new Map([["action=update", { body: { ok: true } }]]),
+    );
 
     const result = await authedClient().attendance.update({
       sectionId: "100",

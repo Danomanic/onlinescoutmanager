@@ -56,7 +56,11 @@ export class OSMClient {
     this.auth = { userid: data.userid, secret: data.secret };
   }
 
-  async post<T>(path: string, body: Record<string, string> = {}, skipAuth = false): Promise<T> {
+  async post<T>(
+    path: string,
+    body: Record<string, string> = {},
+    skipAuth = false,
+  ): Promise<T> {
     const params = new URLSearchParams({
       apiid: this.apiId,
       token: this.token,

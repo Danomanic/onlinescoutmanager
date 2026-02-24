@@ -17,7 +17,11 @@ describe("OSMClient", () => {
   });
 
   it("accepts a custom base URL and strips trailing slashes", () => {
-    const client = new OSMClient({ apiId: "id", token: "tok", baseUrl: "https://custom.example.com/" });
+    const client = new OSMClient({
+      apiId: "id",
+      token: "tok",
+      baseUrl: "https://custom.example.com/",
+    });
     expect(client.baseUrl).toBe("https://custom.example.com");
   });
 
@@ -86,7 +90,10 @@ describe("post (authenticated)", () => {
     mockFetch(
       new Map([
         ["action=authorise", { body: { userid: "42", secret: "s3cret" } }],
-        ["/ext/fail", { body: "Forbidden", init: { status: 403, statusText: "Forbidden" } }],
+        [
+          "/ext/fail",
+          { body: "Forbidden", init: { status: 403, statusText: "Forbidden" } },
+        ],
       ]),
     );
 

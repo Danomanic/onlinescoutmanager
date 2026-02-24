@@ -33,9 +33,15 @@ describe("sections.getTerms", () => {
 describe("badges.getTagCloud", () => {
   it("fetches badge tag cloud", async () => {
     const data = { tags: { community: 1 }, tag_count: 1, badges: {} };
-    const fetchMock = mockFetch(new Map([["getBadgeTagCloud", { body: data }]]));
+    const fetchMock = mockFetch(
+      new Map([["getBadgeTagCloud", { body: data }]]),
+    );
 
-    const result = await authedClient().badges.getTagCloud("100", "200", "cubs");
+    const result = await authedClient().badges.getTagCloud(
+      "100",
+      "200",
+      "cubs",
+    );
 
     expect(result.tag_count).toBe(1);
     expect(fetchMock.mock.calls[0][1].body).toContain("section=cubs");
@@ -57,7 +63,11 @@ describe("dashboard.getNextThings", () => {
     };
     const fetchMock = mockFetch(new Map([["getNextThings", { body: data }]]));
 
-    const result = await authedClient().dashboard.getNextThings("100", "200", "cubs");
+    const result = await authedClient().dashboard.getNextThings(
+      "100",
+      "200",
+      "cubs",
+    );
 
     expect(result.birthdays).toHaveLength(1);
     expect(fetchMock.mock.calls[0][1].body).toContain("section=cubs");

@@ -8,21 +8,30 @@ import type {
 export class ProgrammeResource {
   constructor(private client: OSMClient) {}
 
-  async getSummary(sectionId: string, termId: string): Promise<ProgrammeSummaryResponse> {
+  async getSummary(
+    sectionId: string,
+    termId: string,
+  ): Promise<ProgrammeSummaryResponse> {
     return this.client.post<ProgrammeSummaryResponse>(
       "/ext/programme/?action=getProgrammeSummary",
       { sectionid: sectionId, termid: termId },
     );
   }
 
-  async getDetails(sectionId: string, eveningId: string): Promise<ProgrammeDetailsResponse> {
+  async getDetails(
+    sectionId: string,
+    eveningId: string,
+  ): Promise<ProgrammeDetailsResponse> {
     return this.client.post<ProgrammeDetailsResponse>(
       "/ext/programme/?action=getProgramme",
       { sectionid: sectionId, eveningid: eveningId },
     );
   }
 
-  async getParentRotaMembers(sectionId: string, eveningId: string): Promise<ParentRotaResponse> {
+  async getParentRotaMembers(
+    sectionId: string,
+    eveningId: string,
+  ): Promise<ParentRotaResponse> {
     return this.client.post<ParentRotaResponse>(
       "/ext/programme/?action=getMembersForParentRota",
       { sectionid: sectionId, eveningid: eveningId },

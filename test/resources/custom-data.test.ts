@@ -15,7 +15,13 @@ describe("customData.get", () => {
     const data = {
       status: true,
       error: null,
-      data: [{ group_id: 7, name: "Other", columns: [{ column_id: 34, label: "Gender" }] }],
+      data: [
+        {
+          group_id: 7,
+          name: "Other",
+          columns: [{ column_id: 34, label: "Gender" }],
+        },
+      ],
       meta: {},
     };
     const fetchMock = mockFetch(new Map([["customdata", { body: data }]]));
@@ -30,7 +36,12 @@ describe("customData.get", () => {
 
 describe("customData.update", () => {
   it("updates custom data with nested data keys", async () => {
-    const data = { status: true, error: null, data: { lastname: "Smith" }, meta: {} };
+    const data = {
+      status: true,
+      error: null,
+      data: { lastname: "Smith" },
+      meta: {},
+    };
     const fetchMock = mockFetch(new Map([["customdata", { body: data }]]));
 
     const result = await authedClient().customData.update("100", "42", "2", {
@@ -48,12 +59,20 @@ describe("customData.update", () => {
 describe("email.getContacts", () => {
   it("fetches email contacts for a section", async () => {
     const data = {
-      emails: { "1": { emails: ["parent@example.org"], firstname: "Jamie", member_id: 1 } },
+      emails: {
+        "1": {
+          emails: ["parent@example.org"],
+          firstname: "Jamie",
+          member_id: 1,
+        },
+      },
       count: 1,
       blocks: [],
       daily_limit_reached: false,
     };
-    const fetchMock = mockFetch(new Map([["getSelectedEmailsFromContacts", { body: data }]]));
+    const fetchMock = mockFetch(
+      new Map([["getSelectedEmailsFromContacts", { body: data }]]),
+    );
 
     const result = await authedClient().email.getContacts("100");
 
@@ -64,7 +83,9 @@ describe("email.getContacts", () => {
 
 describe("email.sendTemplate", () => {
   it("sends an email template", async () => {
-    const fetchMock = mockFetch(new Map([["sendTemplate", { body: { ok: true } }]]));
+    const fetchMock = mockFetch(
+      new Map([["sendTemplate", { body: { ok: true } }]]),
+    );
 
     const result = await authedClient().email.sendTemplate(
       "100",

@@ -13,7 +13,7 @@ A clear description of what the bug is.
 Steps or code to reproduce the behavior:
 
 ```ts
-import { OSMClient } from "osm-api";
+import { OSMClient } from "onlinescoutmanager";
 // ...
 ```
 
@@ -22,5 +22,5 @@ What you expected to happen.
 
 **Environment**
 - Node.js version:
-- osm-api version:
+- onlinescoutmanager version:
 - OS:

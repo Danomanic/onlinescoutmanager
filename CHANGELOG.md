@@ -2,7 +2,7 @@
 
 ## 1.0.0
 
-Complete rewrite of `osm-node` as `osm-api`.
+Complete rewrite of `osm-node` as `onlinescoutmanager`.
 
 ### Breaking Changes
 

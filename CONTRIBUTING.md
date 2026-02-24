@@ -1,18 +1,18 @@
-# Contributing to osm-api
+# Contributing to onlinescoutmanager
 
 Thanks for your interest in contributing! Here's how to get started.
 
 ## Reporting Issues
 
-- Use [GitHub Issues](https://github.com/Danomanic/osm-node/issues) to report bugs or request features.
+- Use [GitHub Issues](https://github.com/Danomanic/onlinescoutmanager/issues) to report bugs or request features.
 - Check existing issues before creating a new one.
 - For bugs, include steps to reproduce, expected vs actual behavior, and your Node.js version.
 
 ## Development Setup
 
 ```bash
-git clone https://github.com/Danomanic/osm-node.git
-cd osm-node
+git clone https://github.com/Danomanic/onlinescoutmanager.git
+cd onlinescoutmanager
 npm install
 ```
 

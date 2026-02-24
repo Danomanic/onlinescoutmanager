@@ -1,4 +1,4 @@
-# osm-api
+# onlinescoutmanager
 
 Modern TypeScript client for the [Online Scout Manager](https://www.onlinescoutmanager.co.uk) (OSM) API.
 
